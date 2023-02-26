@@ -1,5 +1,5 @@
 class LongestPalindromicSubstring:
-    def longestPalindrome(self, s: str) -> str:
+    def longest_palindrome(self, s: str) -> str:
         if s == s[::-1]:
             return s
         max_palindrome = ""
@@ -10,9 +10,10 @@ class LongestPalindromicSubstring:
                     break
         return max_palindrome
 
+
 def test_longest_palindromic_substring():
     lps = LongestPalindromicSubstring()
-    print(lps.longestPalindrome("abbb"))
+    print(lps.longest_palindrome("abbb"))
 
 
 test_longest_palindromic_substring()
