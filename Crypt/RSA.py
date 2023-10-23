@@ -19,20 +19,19 @@ def is_prime(num):
         return True
     if num < 2 or num % 2 == 0:
         return False
-    for n in range(3, int(num**0.5)+2, 2):
+    for n in range(3, int(num**0.5) + 2, 2):
         if num % n == 0:
             return False
     return True
 
 
 class RSA(object):
-
-    def __init__(self, p, q):
+    def __init__(self, p, q, e=None):
         self._p = p
         self._q = q
         self._phi = (p - 1) * (q - 1)
         # choose exponent e such as gcd(phi, e) = 1
-        self._e = self.find_e()
+        self._e = self.find_e(e)
         self._n = p * q
         # private_key is d
         self.private_key = self.get_private_key()
@@ -100,14 +99,14 @@ class RSA(object):
         return result
 
     # Choose an integer e such that e and phi(n) are coprime
-    def find_e(self):
+    def find_e(self, x):
         e = random.randrange(1, self._phi)
         # Use Euclid's Algorithm to verify that e and phi(n) are comprime
         g = math.gcd(e, self._phi)
         while g != 1:
             e = random.randrange(1, self._phi)
             g = math.gcd(e, self._phi)
-        return e
+        return x or e
 
     @classmethod
     # return x^k modulo n
@@ -129,23 +128,16 @@ class RSA(object):
 
 def run():
     FIRST_PRIMES = [2, 3, 5, 7, 13, 17, 19, 23]
-    rsa = RSA(p=19, q=23)
+    rsa = RSA(p=43, q=59, e=13)
 
-    # print(f'Original message is: {message}')
-    # print(f'Public key is: {rsa.public_key}')
-    # print(f'Private key is: {rsa.private_key}')
-    # encoded = rsa.encrypt_symbol(message)
-    # print(f'Encoded message is: {encoded}')
-    # decoded = rsa.decrypt_symbol(encoded)
-    # print(f'Decoded message is: {decoded}')
-
-    message = 'ilovepython'
-    print(f'Original message is: {message}')
+    message = "stop"
+    print(f"Original message is: {message}")
     encoded = rsa.encrypt(message)
-    print(f'Encoded message is: {encoded}')
+    print(f"Encoded message is: {encoded}")
     decoded = rsa.decrypt(encoded)
-    print(f'Decoded message is: {decoded}')
-
+    print(f"Decoded message is: {decoded}")
+    print(f"Public key is: {rsa.public_key}")
+    print(f"Private key is: {rsa.private_key}")
 
 
 run()
